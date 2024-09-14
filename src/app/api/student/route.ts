@@ -117,7 +117,7 @@ export const DELETE = async (request: NextRequest) => {
     return NextResponse.json(
       {
         ok: false,
-        message: parseResult.error.issues[1].message,
+        message: parseResult.error.issues[0].message,
       },
       { status: 400 }
     );
