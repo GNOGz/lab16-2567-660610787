@@ -29,7 +29,9 @@ export const GET = async (request: NextRequest) => {
   if (program !== null) {
     filtered = filtered.filter((std) => std.program === program);
   }
-
+  if (studentId !== null) {
+    filtered = filtered.filter((std) => std.studentId === studentId);
+  }
   //filter by student id here
 
   return NextResponse.json({ ok: true, students: filtered });
@@ -107,9 +109,22 @@ export const DELETE = async (request: NextRequest) => {
 
   //or 2. use splice array method
   // DB.students.splice(...)
-
+  const studentId = request.nextUrl.searchParams.get("studentId");
+  const parseResult = zStudentGetParam.safeParse({
+    studentId,
+  });
+  if (parseResult.success === false) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: parseResult.error.issues[1].message,
+      },
+      { status: 400 }
+    );
+  }
+  DB.students = DB.students.filter((student) => (student.studentId !== studentId));
   return NextResponse.json({
     ok: true,
-    message: `Student Id xxx has been deleted`,
+    message: `Student Id ${studentId} has been deleted`,
   });
 };
