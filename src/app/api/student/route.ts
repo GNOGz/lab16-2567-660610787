@@ -122,7 +122,7 @@ export const DELETE = async (request: NextRequest) => {
       { status: 400 }
     );
   }
-  DB.students = DB.students.filter((student) => (student.studentId !== studentId));
+  DB.students = DB.students.filter((student) => student.studentId !== studentId)
   return NextResponse.json({
     ok: true,
     message: `Student Id ${studentId} has been deleted`,
